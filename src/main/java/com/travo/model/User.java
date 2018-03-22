@@ -24,6 +24,9 @@ public class User implements Serializable {
     @Column(name = "email")
     private String email;
 
+    @Column(name = "image_url")
+    private String imageUrl;
+
     @Column(name = "enable")
     private Boolean enable;
 
@@ -156,5 +159,13 @@ public class User implements Serializable {
 
     public void setSpotsFavorite(Set<Spot> spotsFavorite) {
         this.spotsFavorite = spotsFavorite;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }
