@@ -18,6 +18,6 @@ public class AutoCompleteServiceImpl implements AutoCompleteService{
 
     @Override
     public List<Spot> searchSpot(String value) {
-        return spotRepository.findTop5BySpotNameContainingOrNormalizedNameContaining(value, value);
+        return spotRepository.findTop5BySpotNameContaining(value);
     }
 }
