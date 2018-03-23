@@ -18,7 +18,7 @@ public class User implements Serializable {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "full_name", columnDefinition = "nvarchar(255)")
+    @Column(name = "full_name")
     private String fullName;
 
     @Column(name = "email")

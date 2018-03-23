@@ -12,7 +12,7 @@ public class Comment implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "content", columnDefinition = "nvarchar(255)")
+    @Column(name = "content")
     private String content;
 
     @Column(name = "created_time")

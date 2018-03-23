@@ -27,14 +27,17 @@ public class Spot implements Serializable {
     @Column(name = "z_location")
     private String zLocation;
 
-    @Column(name = "address", columnDefinition = "nvarchar(255)")
+    @Column(name = "address")
     private String address;
 
-    @Column(name = "province_city", columnDefinition = "nvarchar(255)")
+    @Column(name = "province_city")
     private String provinceCity;
 
-    @Column(name = "district", columnDefinition = "nvarchar(255)")
+    @Column(name = "district")
     private String district;
+
+    @Column(name = "normalized_name")
+    private String normalizedName;
 
     @Column(name = "enable")
     private Boolean enable;
@@ -189,5 +192,13 @@ public class Spot implements Serializable {
 
     public void setUsersFavorite(Set<User> usersFavorite) {
         this.usersFavorite = usersFavorite;
+    }
+
+    public String getNormalizedName() {
+        return normalizedName;
+    }
+
+    public void setNormalizedName(String normalizedName) {
+        this.normalizedName = normalizedName;
     }
 }
