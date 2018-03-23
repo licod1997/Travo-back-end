@@ -36,9 +36,6 @@ public class Spot implements Serializable {
     @Column(name = "district")
     private String district;
 
-    @Column(name = "normalized_name")
-    private String normalizedName;
-
     @Column(name = "enable")
     private Boolean enable;
 
@@ -192,13 +189,5 @@ public class Spot implements Serializable {
 
     public void setUsersFavorite(Set<User> usersFavorite) {
         this.usersFavorite = usersFavorite;
-    }
-
-    public String getNormalizedName() {
-        return normalizedName;
-    }
-
-    public void setNormalizedName(String normalizedName) {
-        this.normalizedName = normalizedName;
     }
 }
