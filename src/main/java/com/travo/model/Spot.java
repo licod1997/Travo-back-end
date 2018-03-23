@@ -36,6 +36,9 @@ public class Spot implements Serializable {
     @Column(name = "district")
     private String district;
 
+    @Column(name = "rating")
+    private Integer rating;
+
     @Column(name = "enable")
     private Boolean enable;
 
@@ -189,5 +192,13 @@ public class Spot implements Serializable {
 
     public void setUsersFavorite(Set<User> usersFavorite) {
         this.usersFavorite = usersFavorite;
+    }
+
+    public Integer getRating() {
+        return rating;
+    }
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
     }
 }

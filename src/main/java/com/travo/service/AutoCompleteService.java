@@ -1,9 +1,9 @@
 package com.travo.service;
 
-import com.travo.model.Spot;
+import com.travo.dto.AutoCompleteSpotDTO;
 
 import java.util.List;
 
 public interface AutoCompleteService {
-    List<Spot> searchSpot(String value);
+    List<AutoCompleteSpotDTO> searchSpot(String value);
 }
