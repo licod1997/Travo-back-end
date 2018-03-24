@@ -2,19 +2,15 @@ package com.travo.controller;
 
 import com.travo.dto.JsonResult;
 import com.travo.dto.SpotDTO;
-import com.travo.model.Spot;
 import com.travo.service.SpotServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
-import sun.misc.Request;
 
 import java.util.List;
 
-
-@CrossOrigin
 @RestController
 public class SpotController {
 
