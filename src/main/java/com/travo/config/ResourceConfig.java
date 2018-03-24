@@ -26,5 +26,6 @@ public class ResourceConfig extends WebMvcConfigurerAdapter {
                     CLASSPATH_RESOURCE_LOCATIONS);
         }
     }
+
 }
 
