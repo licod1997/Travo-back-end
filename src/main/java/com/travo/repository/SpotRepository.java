@@ -14,4 +14,6 @@ public interface SpotRepository extends JpaRepository<Spot, Long> {
     Spot findSpotById(Long id);
 
     List<Spot> findSpotByEnable(boolean status);
+
+
 }

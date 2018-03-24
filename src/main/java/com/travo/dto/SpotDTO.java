@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SpotDTO implements Serializable {
+public class SpotDTO implements Serializable, Comparable {
 
     private Long id;
     private String spotName;
@@ -158,5 +158,11 @@ public class SpotDTO implements Serializable {
 
     public void setImgLink(List<String> imgLink) {
         this.imgLink = imgLink;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        SpotDTO a = (SpotDTO) o ;
+        return this.getFavouriteCount() - a.getFavouriteCount();
     }
 }

@@ -1,5 +1,6 @@
 package com.travo.service;
 
+import com.travo.dto.ImageDTO;
 import com.travo.model.Image;
 import com.travo.model.Spot;
 import com.travo.repository.ImageRepository;
@@ -27,9 +28,19 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public Set<Image> getListImagesBySpot(Spot spot) {
-//        return imageRepository.findAllBySpot(spot);
-        return null;
+    public List<ImageDTO> getListImagesBySpot(Spot spot) {
+        List<Image> lstImages = imageRepository.findBySpot(spot);
+        List<ImageDTO> result = new ArrayList<>();
+        for (Image img:lstImages) {
+            ImageDTO dto = new ImageDTO();
+            dto.setId(img.getId());
+            dto.setImageUrl(img.getImageUrl());
+            dto.setCreatedTime(img.getCreatedTime());
+            dto.setSpotId(img.getSpot().getId());
+            dto.setUserId(img.getUser().getId());
+            result.add(dto);
+        }
+        return result;
     }
 
     @Override
