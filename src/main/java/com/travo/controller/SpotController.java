@@ -33,9 +33,8 @@ public class SpotController {
     }
 
     @RequestMapping(value = "/spot/{id}", method = RequestMethod.GET)
-    public ResponseEntity<SpotDTO> loadSpotDetail(@PathVariable("id") int id){
-        Long spotId = Long.valueOf(id);
-        return new ResponseEntity<>(spotService.findSpotDTOById(spotId), HttpStatus.OK);
+    public ResponseEntity<SpotDTO> loadSpotDetail(@PathVariable("id") Long id){
+        return new ResponseEntity<>(spotService.findSpotDTOById(id), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/spot/delete/{id}", method = RequestMethod.DELETE)

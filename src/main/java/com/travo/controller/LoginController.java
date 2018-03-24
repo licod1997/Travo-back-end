@@ -18,11 +18,11 @@ public class LoginController {
         return ResponseEntity.status(HttpStatus.OK).body("Logged in!");
     }
 
-//    @GetMapping("/home")
-//    public ModelAndView homePage(ModelAndView model) {
-//        model.setViewName("home");
-//        return model;
-//    }
+    @GetMapping("/home")
+    public ModelAndView homePage(ModelAndView model) {
+        model.setViewName("home");
+        return model;
+    }
 
     @GetMapping("/login")
     public ResponseEntity loginPage(@RequestParam(name = "error", required = false) String error) {
