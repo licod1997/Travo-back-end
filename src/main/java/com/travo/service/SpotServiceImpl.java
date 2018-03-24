@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -18,20 +19,22 @@ public class SpotServiceImpl implements SpotService {
     private SpotRepository spotRepo;
     private CommentRepository commentRepo;
     private UserRepository userRepo;
-    private ImageServiceImpl imgService;
+    private ImageService imgService;
     private ImageRepository imgRepo;
-    private FavoriteServiceImpl favoriteService ;
-    private CommnentServiceImpl commnentService;
+    private FavoriteService favoriteService ;
+    private CommentService commnentService;
+    private UserService userService;
 
     @Autowired
-    public SpotServiceImpl(SpotRepository spotRepo, CommentRepository commentRepo, UserRepository userRepo, ImageRepository imgRepo) {
+    public SpotServiceImpl(SpotRepository spotRepo, CommentRepository commentRepo, UserRepository userRepo, ImageRepository imgRepo
+                         ,FavoriteService favoriteService, CommentService commnentService,ImageService imgService) {
         this.spotRepo = spotRepo;
         this.commentRepo = commentRepo;
         this.userRepo = userRepo;
         this.imgRepo = imgRepo;
-        this.favoriteService = new FavoriteServiceImpl(spotRepo);
-        this.commnentService = new CommnentServiceImpl(commentRepo);
-        this.imgService = new ImageServiceImpl(this.imgRepo);
+        this.favoriteService = favoriteService;
+        this.commnentService = commnentService;
+        this.imgService = imgService;
     }
 
     public List<SpotDTO> findAllSpot() {
@@ -61,11 +64,12 @@ public class SpotServiceImpl implements SpotService {
                dto.setFavouriteIdArr(favoriteService.getFavoriteUserIdBySpot(spot));
                result.add(dto);
         }
+        Collections.sort(result, Collections.reverseOrder());
         return result;
     }
 
     @Override
-    public SpotDTO findSpotById(Long Id) {
+    public SpotDTO findSpotDTOById(Long Id) {
         Spot spot = spotRepo.findOne(Id);
         SpotDTO dto = new SpotDTO();
         dto.setId(spot.getId());
@@ -89,11 +93,16 @@ public class SpotServiceImpl implements SpotService {
 
     @Override
     public boolean isSpotExisted(SpotDTO spot) {
-//        SpotDTO spot1 = findSpotById(spot.getId());
-//        if (spot1 != null) {
-//            return false;
-//        }
+        Spot spot1 = findSpotById(spot.getId());
+        if (spot1 != null) {
+            return false;
+        }
         return true;
+    }
+
+    @Override
+    public Spot findSpotById(Long id) {
+        return spotRepo.findSpotById(id);
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.travo.controller;
 
 import com.travo.dto.JsonResult;
 import com.travo.dto.SpotDTO;
-import com.travo.service.SpotServiceImpl;
+import com.travo.service.SpotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,11 +11,16 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
-@RestController
+
+@CrossOrigin@RestController
 public class SpotController {
 
+    private SpotService spotService;
+
     @Autowired
-    SpotServiceImpl spotService;
+    public SpotController(SpotService spotService) {
+        this.spotService = spotService;
+    }
 
     @RequestMapping(value = "/spot/loadAllSpots", method = RequestMethod.GET)
     public ResponseEntity<List<SpotDTO>> loadAllSpots() {
@@ -30,17 +35,16 @@ public class SpotController {
     @RequestMapping(value = "/spot/{id}", method = RequestMethod.GET)
     public ResponseEntity<SpotDTO> loadSpotDetail(@PathVariable("id") int id){
         Long spotId = Long.valueOf(id);
-        return new ResponseEntity<>(spotService.findSpotById(spotId), HttpStatus.OK);
+        return new ResponseEntity<>(spotService.findSpotDTOById(spotId), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/spot/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<SpotDTO> deleteSpot(@PathVariable("id") Long id){
         JsonResult jsonResult = new JsonResult();
-        SpotDTO spot = spotService.findSpotById(id);
+        SpotDTO spot = spotService.findSpotDTOById(id);
         if (spot == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }
-//        spotService.deleteSpotById(id);
         spotService.disableSpotById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

@@ -8,9 +8,9 @@ import java.util.List;
 
 public interface SpotService {
     List<SpotDTO> findAllSpot();
-    SpotDTO findSpotById(Long Id);
+    SpotDTO findSpotDTOById(Long Id);
     boolean isSpotExisted(SpotDTO spotDTO);
-
+    Spot findSpotById(Long id);
     void saveSpot(SpotDTO spot);
 //    void deleteSpotById(Long id);
     void disableSpotById(Long id);

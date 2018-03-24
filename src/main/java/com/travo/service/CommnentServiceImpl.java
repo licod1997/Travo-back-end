@@ -1,5 +1,6 @@
 package com.travo.service;
 
+import com.travo.dto.CommentDTO;
 import com.travo.model.Comment;
 import com.travo.model.Spot;
 import com.travo.repository.CommentRepository;
@@ -13,12 +14,14 @@ import java.util.Set;
 @Service
 public class CommnentServiceImpl implements CommentService {
     private CommentRepository commentRepo;
+    private UserService userService;
 
 
 
     @Autowired
-    public CommnentServiceImpl (CommentRepository commentRepo) {
+    public CommnentServiceImpl (CommentRepository commentRepo, UserService userService) {
         this.commentRepo = commentRepo;
+        this.userService = userService;
     }
 
     @Override
@@ -37,4 +40,22 @@ public class CommnentServiceImpl implements CommentService {
         }
         return arrayId;
     }
+
+    @Override
+    public List<CommentDTO> findCommentsDTOBySpot(Spot spot) {
+        List<Comment> commentList = commentRepo.findAllBySpot(spot);
+        List<CommentDTO> commentDTOList = new ArrayList<>();
+        for (Comment comment:commentList) {
+            CommentDTO dto = new CommentDTO();
+            dto.setId(comment.getId());
+            dto.setContent(comment.getContent());
+            dto.setCreatedTime(comment.getCreatedTime());
+            dto.setSpotId(comment.getSpot().getId());
+            dto.setUserDTO(userService.findUserDTOById(comment.getUser().getId()));
+            dto.setSpotId(comment.getSpot().getId());
+            commentDTOList.add(dto);
+        }
+        return commentDTOList;
+    }
+
 }
