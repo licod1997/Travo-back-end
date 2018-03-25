@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,7 +28,7 @@ public class ProfileController {
 	@Autowired
 	private ProfileService profileService;
 
-	@PostMapping("/profile")
+	@PostMapping("/prof/upload")
 	public String uploadFile(@RequestParam(name = "file") MultipartFile file) {
 		String location = null;
 		try {
@@ -46,7 +47,7 @@ public class ProfileController {
 		return location;
 	}
 
-	@PostMapping("/prof")
+	@PostMapping("/prof/upadte/{username}")
 	public ResponseEntity UpdateUserInfo(@RequestBody ProfileDTO profileDTO, Authentication auth) {
 	
 		profileDTO.setUsername(auth.getName());
@@ -61,5 +62,10 @@ public class ProfileController {
 		String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss")
 				.format(new Timestamp(System.currentTimeMillis()));
 		return timeStamp;
+	}
+	
+	@GetMapping("/prof/{username}")
+	public ResponseEntity<ProfileDTO> loadUserDetail(Authentication auth){
+		return new ResponseEntity<>(profileService.loadUserProfile(auth.getName()), HttpStatus.OK);
 	}
 }
