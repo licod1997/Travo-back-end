@@ -1,5 +1,6 @@
 package com.travo.service;
 
+import com.travo.dto.HotSpotDTO;
 import com.travo.dto.SpotDTO;
 import com.travo.model.Spot;
 
@@ -12,6 +13,6 @@ public interface SpotService {
     boolean isSpotExisted(SpotDTO spotDTO);
     Spot findSpotById(Long id);
     void saveSpot(SpotDTO spot);
-//    void deleteSpotById(Long id);
+    List<HotSpotDTO> findHotSpot();
     void disableSpotById(Long id);
 }

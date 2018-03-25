@@ -1,5 +1,6 @@
 package com.travo.controller;
 
+import com.travo.dto.HotSpotDTO;
 import com.travo.dto.JsonResult;
 import com.travo.dto.SpotDTO;
 import com.travo.service.SpotService;
@@ -34,12 +35,12 @@ public class SpotController {
 
     @RequestMapping(value = "/spot/{id}", method = RequestMethod.GET)
     public ResponseEntity<SpotDTO> loadSpotDetail(@PathVariable("id") Long id){
+        System.out.println("Load Spot Detail");
         return new ResponseEntity<>(spotService.findSpotDTOById(id), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/spot/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<SpotDTO> deleteSpot(@PathVariable("id") Long id){
-        JsonResult jsonResult = new JsonResult();
         SpotDTO spot = spotService.findSpotDTOById(id);
         if (spot == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -55,5 +56,11 @@ public class SpotController {
 //            }
 //            spotService.saveSpot(spot);
         return null;
+    }
+
+    @RequestMapping(value = "/loadHotSpots", method = RequestMethod.GET)
+    public List<HotSpotDTO> loadHotSpots() {
+        List<HotSpotDTO> listHotSpots = spotService.findHotSpot();
+        return listHotSpots;
     }
 }
