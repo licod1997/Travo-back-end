@@ -13,7 +13,7 @@ public class ResourceConfig extends WebMvcConfigurerAdapter {
 
     private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {
             "classpath:/META-INF/resources/", "classpath:/images/",
-            "classpath:/static/", "classpath:/public/" };
+            "classpath:/static/", "classpath:/public/", "classpath:/avatars/" };
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
