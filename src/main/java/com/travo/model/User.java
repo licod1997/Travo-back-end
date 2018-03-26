@@ -50,7 +50,7 @@ public class User implements Serializable {
     @JoinTable(name = "wish_list", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "spot_id", referencedColumnName = "id"))
     private Set<Spot> spotsWishList;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinTable(name = "favorite", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "spot_id", referencedColumnName = "id"))
     private Set<Spot> spotsFavorite;
 
@@ -168,4 +168,6 @@ public class User implements Serializable {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
+
 }

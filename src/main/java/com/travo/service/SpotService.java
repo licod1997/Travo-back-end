@@ -14,6 +14,8 @@ public interface SpotService {
     boolean isSpotExisted(SpotDTO spotDTO);
     Spot findSpotById(Long id);
     void saveSpot(SpotDTO spot);
-//    List<HotSpotDTO> findHotSpot(User user);
     void disableSpotById(Long id);
+//    void remove(Long spotId, Long userId);
+    void saveFavorite(Long spotId, Long userId);
+    void favoriteSpot(Long spotId, Long userId);
 }

@@ -14,6 +14,7 @@ import com.travo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.*;
 
 @Service
@@ -24,9 +25,8 @@ public class SpotServiceImpl implements SpotService {
     private UserRepository userRepo;
     private ImageService imgService;
     private ImageRepository imgRepo;
-    private FavoriteService favoriteService ;
+    private FavoriteService favoriteService;
     private CommentService commnentService;
-    private UserService userService;
 
     @Autowired
     public SpotServiceImpl(SpotRepository spotRepo, CommentRepository commentRepo, UserRepository userRepo, ImageRepository imgRepo
@@ -40,6 +40,7 @@ public class SpotServiceImpl implements SpotService {
         this.imgService = imgService;
     }
 
+    @Override
     public List<SpotDTO> findAllSpot() {
         boolean enable = true;
         List<Spot> lstSpot = spotRepo.findSpotByEnable(true);
@@ -112,45 +113,6 @@ public class SpotServiceImpl implements SpotService {
 
     }
 
-//    @Override
-//    public List<HotSpotDTO> findHotSpot(User loggedUser) {
-//        List<Spot> lstSpot = spotRepo.findSpotByEnable(true);
-//        List<HotSpotDTO> result = new ArrayList<>();
-//        LoginController loginController = new LoginController();
-//        for (Spot spot:lstSpot) {
-//            HotSpotDTO dto = new HotSpotDTO();
-//            dto.setId(spot.getId());
-//            if (spot.getImages().iterator().hasNext()) {
-//                dto.setImgUrl(spot.getImages().iterator().next().getImageUrl());
-//            } else {
-//                dto.setImgUrl("unknown");
-//            }
-//            dto.setAddress(spot.getAddress());
-//            dto.setCommentCount(spot.getComments().size());
-//            dto.setFavCount(spot.getRating());
-//
-////            User loggedUser = loginController.getLoggedUser();
-////            System.out.println("Logged User : "+loggedUser.getUsername());
-//            List<User> lstUser = new ArrayList<>();
-//            ArrayList<Long> favoritesIdArr = favoriteService.getFavoriteUserIdBySpot(spot);
-//            lstUser.add(loggedUser);
-//            List<Spot> lstSpotFavoritedByUser = spotRepo.findByUsersFavoriteIn(lstUser);
-//
-//            Set<User> setUsersFavorites = spot.getUsersFavorite();
-//            Iterator<User> itr = setUsersFavorites.iterator();
-//            dto.setFavorited(false);
-//            while (itr.hasNext()) {
-//                User user = itr.next();
-//                if (user.getId() == loggedUser.getId()) {
-//                    dto.setFavorited(true);
-//                }
-//            }
-//
-//            result.add(dto);
-//            Collections.sort(result, Collections.reverseOrder());
-//        }
-//        return result;
-//    }
 
     @Override
     public void disableSpotById(Long id) {
@@ -159,9 +121,45 @@ public class SpotServiceImpl implements SpotService {
         spotRepo.save(spot);
     }
 
-//    @Override
-//    public void deleteSpotById(Long id) {
-//        spotRepo.deleteSpotById(id);
-////        spotRepo.delete(id);
-//    }
+
+    @Transactional
+    private void remove(Long spotId, Long userId) {
+        System.out.println("Removing Favorite...with spotId: "+spotId+" userId: "+userId);
+        Spot spot = spotRepo.findOne(spotId);
+        User user = userRepo.findOne(userId);
+        System.out.println(spot.getId());
+        System.out.println(user.getId());
+        System.out.println(spot.getUsersFavorite().remove(user));
+    }
+
+    @Override
+//    @Transactional
+    public void saveFavorite(Long spotId, Long userId) {
+        System.out.println("Saving Favorite...with spotId: "+spotId+" userId: "+userId);
+        Spot spot = spotRepo.findOne(spotId);
+        User user = userRepo.findOne(userId);
+        spot.getUsersFavorite().add(user);
+    }
+
+    @Override
+    @Transactional
+    public void favoriteSpot(Long spotId, Long userId) {
+
+        Spot spot = findSpotById(spotId);
+        Set<User>  setUsersFavoriteSpot  = spot.getUsersFavorite();
+        boolean isFavorited = false;
+        Iterator<User> userIterator = setUsersFavoriteSpot.iterator();
+        while (userIterator.hasNext()) {
+            User user = userIterator.next();
+            System.out.println("User Id : "+user.getId());
+            if (user.getId() == userId) {
+                isFavorited = true;
+            }
+        }
+        if (isFavorited) {
+            remove(spotId,userId);
+        } else {
+           saveFavorite(spotId,userId);
+        }
+    }
 }

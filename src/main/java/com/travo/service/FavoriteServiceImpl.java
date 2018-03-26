@@ -16,15 +16,6 @@ import java.util.Set;
 @Service
 public class FavoriteServiceImpl implements FavoriteService{
 
-    private SpotRepository spotRepository;
-
-
-
-    @Autowired
-    public  FavoriteServiceImpl(SpotRepository spotRepository) {
-        this.spotRepository = spotRepository;
-    }
-
     @Override
     public Integer countFavoriteBySpot(Spot spot) {
         Set<User> userFavorites = spot.getUsersFavorite();
@@ -41,5 +32,8 @@ public class FavoriteServiceImpl implements FavoriteService{
         }
         return arrayFavoriteId;
     }
+
+
+
 
 }

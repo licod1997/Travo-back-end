@@ -4,6 +4,7 @@ import com.travo.dto.HotSpotDTO;
 import com.travo.dto.JsonResult;
 import com.travo.dto.SpotDTO;
 import com.travo.model.User;
+import com.travo.service.FavoriteService;
 import com.travo.service.SpotService;
 import com.travo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 
@@ -21,11 +23,13 @@ public class SpotController {
 
     private SpotService spotService;
     private UserService userService;
+    private FavoriteService favoriteService;
 
     @Autowired
-    public SpotController(SpotService spotService, UserService userService) {
+    public SpotController(SpotService spotService, UserService userService, FavoriteService favoriteService) {
         this.spotService = spotService;
         this.userService = userService;
+        this.favoriteService= favoriteService;
     }
 
     @RequestMapping(value = "/spot/loadAllSpots", method = RequestMethod.GET)
@@ -63,10 +67,10 @@ public class SpotController {
         return null;
     }
 
-//    @RequestMapping(value = "/loadHotSpots", method = RequestMethod.GET)
-//    public List<HotSpotDTO> loadHotSpots(Authentication auth) {
-//        User user = userService.findByUsername(auth.getName());
-//        List<HotSpotDTO> listHotSpots = spotService.findbHotSpot(user);
-//        return listHotSpots;
-//    }
+    @RequestMapping(value = "/spot/favorite", method = RequestMethod.GET)
+    public String loadHotSpots(Authentication auth, @RequestParam(value = "spotId") Long spotId) {
+        User user = userService.findByUsername(auth.getName());
+        spotService.favoriteSpot(spotId,user.getId());
+        return "Success";
+    }
 }
