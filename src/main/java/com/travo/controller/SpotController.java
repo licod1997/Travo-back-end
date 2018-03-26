@@ -3,10 +3,13 @@ package com.travo.controller;
 import com.travo.dto.HotSpotDTO;
 import com.travo.dto.JsonResult;
 import com.travo.dto.SpotDTO;
+import com.travo.model.User;
 import com.travo.service.SpotService;
+import com.travo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -17,10 +20,12 @@ import java.util.List;
 public class SpotController {
 
     private SpotService spotService;
+    private UserService userService;
 
     @Autowired
-    public SpotController(SpotService spotService) {
+    public SpotController(SpotService spotService, UserService userService) {
         this.spotService = spotService;
+        this.userService = userService;
     }
 
     @RequestMapping(value = "/spot/loadAllSpots", method = RequestMethod.GET)
@@ -58,9 +63,10 @@ public class SpotController {
         return null;
     }
 
-    @RequestMapping(value = "/loadHotSpots", method = RequestMethod.GET)
-    public List<HotSpotDTO> loadHotSpots() {
-        List<HotSpotDTO> listHotSpots = spotService.findHotSpot();
-        return listHotSpots;
-    }
+//    @RequestMapping(value = "/loadHotSpots", method = RequestMethod.GET)
+//    public List<HotSpotDTO> loadHotSpots(Authentication auth) {
+//        User user = userService.findByUsername(auth.getName());
+//        List<HotSpotDTO> listHotSpots = spotService.findbHotSpot(user);
+//        return listHotSpots;
+//    }
 }

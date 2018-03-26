@@ -14,9 +14,7 @@ import com.travo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class SpotServiceImpl implements SpotService {
@@ -114,40 +112,45 @@ public class SpotServiceImpl implements SpotService {
 
     }
 
-    @Override
-    public List<HotSpotDTO> findHotSpot() {
-        List<Spot> lstSpot = spotRepo.findSpotByEnable(true);
-        List<HotSpotDTO> result = new ArrayList<>();
-        LoginController loginController = new LoginController();
-        for (Spot spot:lstSpot) {
-            HotSpotDTO dto = new HotSpotDTO();
-            dto.setId(spot.getId());
-            if (spot.getImages().iterator().hasNext()) {
-                dto.setImgUrl(spot.getImages().iterator().next().getImageUrl());
-            } else {
-                dto.setImgUrl("unknown");
-            }
-            dto.setAddress(spot.getAddress());
-            dto.setCommentCount(spot.getComments().size());
-            dto.setFavCount(spot.getRating());
-
-//            User loggedUser = loginController.getLoggedUser();
-//            System.out.println("Logged User : "+loggedUser.getUsername());
-            User loggedOnUser = userRepo.findByUsername("baonq");
-            ArrayList<Long> favoritesIdArr = favoriteService.getFavoriteUserIdBySpot(spot);
-            for (Long userFavoritedId: favoritesIdArr) {
-                System.out.println("User favorites Id : "+userFavoritedId);
-                if (userFavoritedId == loggedOnUser.getId()) {
-                    dto.setFavorited(true);
-                } else {
-                    dto.setFavorited(false);
-                }
-            }
-            result.add(dto);
-            Collections.sort(result, Collections.reverseOrder());
-        }
-        return result;
-    }
+//    @Override
+//    public List<HotSpotDTO> findHotSpot(User loggedUser) {
+//        List<Spot> lstSpot = spotRepo.findSpotByEnable(true);
+//        List<HotSpotDTO> result = new ArrayList<>();
+//        LoginController loginController = new LoginController();
+//        for (Spot spot:lstSpot) {
+//            HotSpotDTO dto = new HotSpotDTO();
+//            dto.setId(spot.getId());
+//            if (spot.getImages().iterator().hasNext()) {
+//                dto.setImgUrl(spot.getImages().iterator().next().getImageUrl());
+//            } else {
+//                dto.setImgUrl("unknown");
+//            }
+//            dto.setAddress(spot.getAddress());
+//            dto.setCommentCount(spot.getComments().size());
+//            dto.setFavCount(spot.getRating());
+//
+////            User loggedUser = loginController.getLoggedUser();
+////            System.out.println("Logged User : "+loggedUser.getUsername());
+//            List<User> lstUser = new ArrayList<>();
+//            ArrayList<Long> favoritesIdArr = favoriteService.getFavoriteUserIdBySpot(spot);
+//            lstUser.add(loggedUser);
+//            List<Spot> lstSpotFavoritedByUser = spotRepo.findByUsersFavoriteIn(lstUser);
+//
+//            Set<User> setUsersFavorites = spot.getUsersFavorite();
+//            Iterator<User> itr = setUsersFavorites.iterator();
+//            dto.setFavorited(false);
+//            while (itr.hasNext()) {
+//                User user = itr.next();
+//                if (user.getId() == loggedUser.getId()) {
+//                    dto.setFavorited(true);
+//                }
+//            }
+//
+//            result.add(dto);
+//            Collections.sort(result, Collections.reverseOrder());
+//        }
+//        return result;
+//    }
 
     @Override
     public void disableSpotById(Long id) {

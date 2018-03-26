@@ -2,7 +2,7 @@ package com.travo.dto;
 
 import java.io.Serializable;
 
-public class PopularSpotDTO implements Serializable {
+public class PopularSpotDTO implements Serializable, Comparable {
     private long id;
     private String imageUrl;
     private String spotName;
@@ -11,6 +11,7 @@ public class PopularSpotDTO implements Serializable {
     private long commentCount;
     private int page;
     private int size;
+    private boolean isFavorite;
 
     public PopularSpotDTO() {
     }
@@ -78,4 +79,19 @@ public class PopularSpotDTO implements Serializable {
     public void setSize(int size) {
         this.size = size;
     }
+
+    public boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        isFavorite = favorite;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        PopularSpotDTO dto = (PopularSpotDTO) o;
+        return (int)this.getFavoriteCount() - (int)dto.getFavoriteCount();
+    }
+
 }
