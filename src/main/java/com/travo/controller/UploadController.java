@@ -22,6 +22,7 @@ public class UploadController {
 	@Autowired
 	private ProfileService profileService;
 	
+	
 	@PostMapping("/upimg")
 	public String uploadFile(@RequestParam(name = "file") MultipartFile file) {
 		String location=null;

@@ -43,16 +43,14 @@ public class ProfileServiceImpl implements ProfileService {
 	}
 
 	@Override
-	public boolean updateUserProfile(ProfileDTO profileDTO) {
+	public User updateUserProfile(ProfileDTO profileDTO) {
 		User user = new User();
-		if (profileDTO != null) {
+		
 			user = userRepository.findByUsername(profileDTO.getUsername());
 			user.setFullName(profileDTO.getFullName());
 			user.setImageUrl(profileDTO.getImgURL());
-			userRepository.save(user);
-			return true;
-		}
-		return false;
+					
+		return userRepository.save(user);
 	}
 	@Override
 	public String getImgUrl(String fileName) {

@@ -44,15 +44,13 @@ public class ProfileController {
 		return location;
 	}
 
-	@PostMapping("/prof/upadte/{username}")
+	@PostMapping("/prof/update")
 	public ResponseEntity UpdateUserInfo(@RequestBody ProfileDTO profileDTO, Authentication auth) {
-
 		profileDTO.setUsername(auth.getName());
-		boolean success = profileService.updateUserProfile(profileDTO);
-		if (success) {
-			return ResponseEntity.status(HttpStatus.OK).body("Update success");
+		{
+			profileService.updateUserProfile(profileDTO);
+			return ResponseEntity.status(HttpStatus.OK).body("Update Success");
 		}
-		return ResponseEntity.status(HttpStatus.OK).body("Update Failed");
 	}
 
 
