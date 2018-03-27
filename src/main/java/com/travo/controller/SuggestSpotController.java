@@ -1,5 +1,6 @@
 package com.travo.controller;
 
+import com.travo.dto.LocationDTO;
 import com.travo.dto.PageDTO;
 import com.travo.dto.PopularSpotDTO;
 import com.travo.model.User;
@@ -29,7 +30,13 @@ public class SuggestSpotController {
     public List<PopularSpotDTO> popularSpot(@RequestBody PageDTO pageDTO,
                                             Authentication auth) {
         User user = userService.findByUsername(auth.getName());
-        System.out.println("abc");
         return suggestSpotService.findPopularSpot(pageDTO, user);
+    }
+
+    @PostMapping("/near-me")
+    public List<PopularSpotDTO> nearSpot(@RequestBody LocationDTO locationDTO,
+                                         Authentication auth) {
+        User user = userService.findByUsername(auth.getName());
+        return suggestSpotService.findNearSpot(locationDTO, user);
     }
 }
