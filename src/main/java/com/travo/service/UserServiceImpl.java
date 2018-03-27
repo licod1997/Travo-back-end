@@ -1,5 +1,6 @@
 package com.travo.service;
 
+import com.travo.constant.AppConstant;
 import com.travo.dto.UserDTO;
 import com.travo.model.User;
 import com.travo.repository.UserRepository;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl implements UserService {
     private UserRepository userRepository;
-
     @Autowired
     public UserServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
        dto.setUsername(user.getUsername());
        dto.setFullName(user.getFullName());
        dto.setEmail(user.getEmail());
-       dto.setImageUrl(user.getImageUrl());
+       dto.setImageUrl(AppConstant.imgUrlPrefix+user.getImageUrl());
 //       dto.setCreatedSpotIdArr(user.getS);
         return dto;
     }

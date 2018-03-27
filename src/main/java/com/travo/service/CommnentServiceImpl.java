@@ -5,6 +5,7 @@ import com.travo.model.Comment;
 import com.travo.model.Spot;
 import com.travo.model.User;
 import com.travo.repository.CommentRepository;
+import com.travo.repository.SpotRepository;
 import com.travo.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +20,13 @@ import java.util.Set;
 public class CommnentServiceImpl implements CommentService {
 	private CommentRepository commentRepo;
 	private UserService userService;
+	private SpotRepository spotRepository;
 
 	@Autowired
-	public CommnentServiceImpl(CommentRepository commentRepo, UserService userService, UserRepository userRepository) {
+	public CommnentServiceImpl(CommentRepository commentRepo, UserService userService, SpotRepository spotService) {
 		this.commentRepo = commentRepo;
 		this.userService = userService;
-		this.userRepository= userRepository;
+		this.spotRepository=  spotService;
 	}
 
 	@Override
@@ -46,7 +48,7 @@ public class CommnentServiceImpl implements CommentService {
 
 	@Override
 	public List<CommentDTO> findCommentsDTOBySpot(Spot spot) {
-		List<Comment> commentList = commentRepo.findAllBySpot(spot);
+		List<Comment> commentList = commentRepo.findAllBySpotOrderByIdDesc(spot);
 		List<CommentDTO> commentDTOList = new ArrayList<>();
 		for (Comment comment : commentList) {
 			CommentDTO dto = new CommentDTO();
@@ -62,28 +64,14 @@ public class CommnentServiceImpl implements CommentService {
 	}
 
 	@Override
-	public Comment saveComment(CommentDTO commentDTO, String userName) {
+	public Comment saveComment(CommentDTO commentDTO, User loggedUser) {
 		Comment comment = new Comment();
-		User user = new User();
-		Spot spot = new Spot();
-		user = getUserID(userName);
-		long userId= user.getId();
-		long spotId = 1;
-		user.setId(userId);
-		spot.setId(spotId);
+		Spot spot = spotRepository.findSpotById(commentDTO.getSpotId());
 	    comment.setCreatedTime(new Date());
 		comment.setContent(commentDTO.getContent());
-		comment.setUser(user);
+		comment.setUser(loggedUser);
 		comment.setSpot(spot);
 
 		return commentRepo.save(comment);
-	}
-
-	private UserRepository userRepository;
-
-	private User getUserID(String userName) {
-		User user = userRepository.findByUsername(userName);
-		return user;
-		
 	}
 }

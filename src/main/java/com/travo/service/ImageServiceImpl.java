@@ -1,5 +1,6 @@
 package com.travo.service;
 
+import com.travo.constant.AppConstant;
 import com.travo.dto.ImageDTO;
 import com.travo.model.Image;
 import com.travo.model.Spot;
@@ -18,7 +19,6 @@ import java.util.Set;
  */
 @Service
 public class ImageServiceImpl implements ImageService {
-
     private ImageRepository imageRepository;
 
 
@@ -34,7 +34,7 @@ public class ImageServiceImpl implements ImageService {
         for (Image img:lstImages) {
             ImageDTO dto = new ImageDTO();
             dto.setId(img.getId());
-            dto.setImageUrl(img.getImageUrl());
+            dto.setImageUrl(AppConstant.imgUrlPrefix+img.getImageUrl());
             dto.setCreatedTime(img.getCreatedTime());
             dto.setSpotId(img.getSpot().getId());
             dto.setUserId(img.getUser().getId());
@@ -54,7 +54,7 @@ public class ImageServiceImpl implements ImageService {
 //            lstImgLink.add(itr.next().getImageUrl());
 //        }
         for (Image img: lstImage) {
-            lstImgLink.add(img.getImageUrl());
+            lstImgLink.add(AppConstant.imgUrlPrefix+img.getImageUrl());
         }
         return lstImgLink;
     }

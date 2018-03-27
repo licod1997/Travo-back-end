@@ -37,11 +37,12 @@ public class SuggestSpotServiceImpl implements SuggestSpotService {
             popularSpotDTO.setId(spot.getId());
             popularSpotDTO.setSpotName(spot.getSpotName());
             popularSpotDTO.setAdress(spot.getAddress());
-
-            if (spot.getImages().iterator().hasNext()) {
-                popularSpotDTO.setImageUrl(spot.getImages().iterator().next().getImageUrl());;
-            } else {
-                popularSpotDTO.setImageUrl("Unknown");
+            popularSpotDTO.setImageUrl("Unknown");
+            Iterator<Image> imageIterator = spot.getImages().iterator();
+            while(imageIterator.hasNext()) {
+                if(imageIterator.next() != null){
+                    popularSpotDTO.setImageUrl(AppConstant.imgUrlPrefix+imageIterator.next().getImageUrl());;
+                }
             }
             popularSpotDTO.setFavoriteCount(spot.getUsersFavorite().size());
             popularSpotDTO.setCommentCount(spot.getComments().size());

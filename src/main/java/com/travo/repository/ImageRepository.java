@@ -3,6 +3,7 @@ package com.travo.repository;
 import com.travo.model.Image;
 import com.travo.model.Spot;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.Set;

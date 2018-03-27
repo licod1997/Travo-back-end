@@ -70,7 +70,6 @@ public class SpotController {
     @RequestMapping(value = "/spot/favorite", method = RequestMethod.GET)
     public String loadHotSpots(Authentication auth, @RequestParam(value = "spotId") Long spotId) {
         User user = userService.findByUsername(auth.getName());
-        spotService.favoriteSpot(spotId,user.getId());
-        return "Success";
+        return spotService.favoriteSpot(spotId,user.getId());
     }
 }

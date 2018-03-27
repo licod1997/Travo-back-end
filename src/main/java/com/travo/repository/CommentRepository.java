@@ -10,4 +10,5 @@ public interface CommentRepository extends JpaRepository<Comment, Long>{
     long countAllBySpot(Spot spot);
 
     List<Comment> findAllBySpot(Spot spot);
+    List<Comment> findAllBySpotOrderByIdDesc(Spot spot);
 }

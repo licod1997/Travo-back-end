@@ -17,5 +17,5 @@ public interface SpotService {
     void disableSpotById(Long id);
 //    void remove(Long spotId, Long userId);
     void saveFavorite(Long spotId, Long userId);
-    void favoriteSpot(Long spotId, Long userId);
+    String favoriteSpot(Long spotId, Long userId);
 }

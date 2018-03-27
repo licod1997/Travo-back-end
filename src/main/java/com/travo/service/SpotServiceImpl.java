@@ -20,25 +20,32 @@ import java.util.*;
 @Service
 public class SpotServiceImpl implements SpotService {
 
+    @Autowired
     private SpotRepository spotRepo;
+    @Autowired
     private CommentRepository commentRepo;
+    @Autowired
     private UserRepository userRepo;
+    @Autowired
     private ImageService imgService;
+    @Autowired
     private ImageRepository imgRepo;
+    @Autowired
     private FavoriteService favoriteService;
+    @Autowired
     private CommentService commnentService;
 
-    @Autowired
-    public SpotServiceImpl(SpotRepository spotRepo, CommentRepository commentRepo, UserRepository userRepo, ImageRepository imgRepo
-                         ,FavoriteService favoriteService, CommentService commnentService,ImageService imgService) {
-        this.spotRepo = spotRepo;
-        this.commentRepo = commentRepo;
-        this.userRepo = userRepo;
-        this.imgRepo = imgRepo;
-        this.favoriteService = favoriteService;
-        this.commnentService = commnentService;
-        this.imgService = imgService;
-    }
+
+//    public SpotServiceImpl(SpotRepository spotRepo, CommentRepository commentRepo, UserRepository userRepo, ImageRepository imgRepo
+//                         ,FavoriteService favoriteService, CommentService commnentService,ImageService imgService) {
+//        this.spotRepo = spotRepo;
+//        this.commentRepo = commentRepo;
+//        this.userRepo = userRepo;
+//        this.imgRepo = imgRepo;
+//        this.favoriteService = favoriteService;
+//        this.commnentService = commnentService;
+//        this.imgService = imgService;
+//    }
 
     @Override
     public List<SpotDTO> findAllSpot() {
@@ -88,7 +95,7 @@ public class SpotServiceImpl implements SpotService {
         dto.setCommentCount(commentRepo.findAllBySpot(spot).size());
         dto.setFavouriteCount(favoriteService.countFavoriteBySpot(spot));
         dto.setImgLink(imgService.getListImageLinkBySpot(spot));
-        dto.setCommentIdArr(commnentService.getCommentsIdArray(spot));
+//        dto.setCommentIdArr(commnentService.getCommentsIdArray(spot));
         dto.setCreatorId(spot.getCreator().getId());
         dto.setFavouriteIdArr(favoriteService.getFavoriteUserIdBySpot(spot));
         return dto;
@@ -143,23 +150,25 @@ public class SpotServiceImpl implements SpotService {
 
     @Override
     @Transactional
-    public void favoriteSpot(Long spotId, Long userId) {
-
+    public String favoriteSpot(Long spotId, Long userId) {
+        String blackHeart = "fas fa-heart";
+        String whiteHeart = "far fa-heart";
         Spot spot = findSpotById(spotId);
         Set<User>  setUsersFavoriteSpot  = spot.getUsersFavorite();
         boolean isFavorited = false;
         Iterator<User> userIterator = setUsersFavoriteSpot.iterator();
         while (userIterator.hasNext()) {
             User user = userIterator.next();
-            System.out.println("User Id : "+user.getId());
             if (user.getId() == userId) {
                 isFavorited = true;
             }
         }
         if (isFavorited) {
             remove(spotId,userId);
+            return whiteHeart;
         } else {
            saveFavorite(spotId,userId);
+            return blackHeart;
         }
     }
 }

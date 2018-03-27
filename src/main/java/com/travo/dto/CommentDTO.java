@@ -16,6 +16,14 @@ public class CommentDTO implements Serializable{
     public CommentDTO() {
     }
 
+    public CommentDTO(Long id, String content, Date createdTime, UserDTO userDTO, Long spotId) {
+        this.id = id;
+        this.content = content;
+        this.createdTime = createdTime;
+        this.userDTO = userDTO;
+        this.spotId = spotId;
+    }
+
     public Long getId() {
         return id;
     }
