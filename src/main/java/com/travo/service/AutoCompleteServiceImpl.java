@@ -1,6 +1,7 @@
 package com.travo.service;
 
 import com.travo.dto.AutoCompleteSpotDTO;
+import com.travo.dto.SpotDTO;
 import com.travo.model.Spot;
 import com.travo.repository.SpotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,5 +34,10 @@ public class AutoCompleteServiceImpl implements AutoCompleteService{
         }
 
         return autoCompleteSpotDTOList;
+    }
+
+    @Override
+    public long findSpot(String value) {
+        return spotRepository.findBySpotName(value).getId();
     }
 }

@@ -23,4 +23,9 @@ public class AutoCompleteController {
     public List<AutoCompleteSpotDTO> findAllObject(@RequestParam(name = "value", required = false) String value) {
         return autoCompleteService.searchSpot(value);
     }
+
+    @GetMapping("/search-result")
+    public long findObject(@RequestParam(name = "value", required = false) String value) {
+        return autoCompleteService.findSpot(value);
+    }
 }

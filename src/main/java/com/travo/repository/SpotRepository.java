@@ -15,5 +15,5 @@ public interface SpotRepository extends JpaRepository<Spot, Long> {
 
     List<Spot> findSpotByEnable(boolean status);
 
-
+    Spot findBySpotName(String value);
 }
