@@ -1,14 +1,20 @@
 package com.travo.controller;
 
+import com.travo.dto.HotSpotDTO;
 import com.travo.dto.JsonResult;
 import com.travo.dto.SpotDTO;
+import com.travo.model.User;
+import com.travo.service.FavoriteService;
 import com.travo.service.SpotService;
+import com.travo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 
@@ -16,10 +22,14 @@ import java.util.List;
 public class SpotController {
 
     private SpotService spotService;
+    private UserService userService;
+    private FavoriteService favoriteService;
 
     @Autowired
-    public SpotController(SpotService spotService) {
+    public SpotController(SpotService spotService, UserService userService, FavoriteService favoriteService) {
         this.spotService = spotService;
+        this.userService = userService;
+        this.favoriteService= favoriteService;
     }
 
     @RequestMapping(value = "/spot/loadAllSpots", method = RequestMethod.GET)
@@ -34,12 +44,12 @@ public class SpotController {
 
     @RequestMapping(value = "/spot/{id}", method = RequestMethod.GET)
     public ResponseEntity<SpotDTO> loadSpotDetail(@PathVariable("id") Long id){
+        System.out.println("Load Spot Detail");
         return new ResponseEntity<>(spotService.findSpotDTOById(id), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/spot/delete/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<SpotDTO> deleteSpot(@PathVariable("id") Long id){
-        JsonResult jsonResult = new JsonResult();
         SpotDTO spot = spotService.findSpotDTOById(id);
         if (spot == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
@@ -55,5 +65,12 @@ public class SpotController {
 //            }
 //            spotService.saveSpot(spot);
         return null;
+    }
+
+    @RequestMapping(value = "/spot/favorite", method = RequestMethod.GET)
+    public String loadHotSpots(Authentication auth, @RequestParam(value = "spotId") Long spotId) {
+        User user = userService.findByUsername(auth.getName());
+        spotService.favoriteSpot(spotId,user.getId());
+        return "Success";
     }
 }

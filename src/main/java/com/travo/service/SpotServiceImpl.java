@@ -1,7 +1,12 @@
 package com.travo.service;
 
+import com.travo.config.securitymodel.SecurityUser;
+import com.travo.controller.LoginController;
+import com.travo.dto.HotSpotDTO;
 import com.travo.dto.SpotDTO;
+import com.travo.model.Image;
 import com.travo.model.Spot;
+import com.travo.model.User;
 import com.travo.repository.CommentRepository;
 import com.travo.repository.ImageRepository;
 import com.travo.repository.SpotRepository;
@@ -9,9 +14,8 @@ import com.travo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import javax.transaction.Transactional;
+import java.util.*;
 
 @Service
 public class SpotServiceImpl implements SpotService {
@@ -21,9 +25,8 @@ public class SpotServiceImpl implements SpotService {
     private UserRepository userRepo;
     private ImageService imgService;
     private ImageRepository imgRepo;
-    private FavoriteService favoriteService ;
+    private FavoriteService favoriteService;
     private CommentService commnentService;
-    private UserService userService;
 
     @Autowired
     public SpotServiceImpl(SpotRepository spotRepo, CommentRepository commentRepo, UserRepository userRepo, ImageRepository imgRepo
@@ -37,10 +40,10 @@ public class SpotServiceImpl implements SpotService {
         this.imgService = imgService;
     }
 
+    @Override
     public List<SpotDTO> findAllSpot() {
         boolean enable = true;
         List<Spot> lstSpot = spotRepo.findSpotByEnable(true);
-//        return lstSpot;
         System.out.println("List Spot size: "+lstSpot.size());
         ArrayList<SpotDTO> result = new ArrayList<>();
         for (Spot spot : lstSpot) {
@@ -110,6 +113,7 @@ public class SpotServiceImpl implements SpotService {
 
     }
 
+
     @Override
     public void disableSpotById(Long id) {
         Spot spot = spotRepo.findSpotById(id);
@@ -117,9 +121,45 @@ public class SpotServiceImpl implements SpotService {
         spotRepo.save(spot);
     }
 
-//    @Override
-//    public void deleteSpotById(Long id) {
-//        spotRepo.deleteSpotById(id);
-////        spotRepo.delete(id);
-//    }
+
+    @Transactional
+    private void remove(Long spotId, Long userId) {
+        System.out.println("Removing Favorite...with spotId: "+spotId+" userId: "+userId);
+        Spot spot = spotRepo.findOne(spotId);
+        User user = userRepo.findOne(userId);
+        System.out.println(spot.getId());
+        System.out.println(user.getId());
+        System.out.println(spot.getUsersFavorite().remove(user));
+    }
+
+    @Override
+//    @Transactional
+    public void saveFavorite(Long spotId, Long userId) {
+        System.out.println("Saving Favorite...with spotId: "+spotId+" userId: "+userId);
+        Spot spot = spotRepo.findOne(spotId);
+        User user = userRepo.findOne(userId);
+        spot.getUsersFavorite().add(user);
+    }
+
+    @Override
+    @Transactional
+    public void favoriteSpot(Long spotId, Long userId) {
+
+        Spot spot = findSpotById(spotId);
+        Set<User>  setUsersFavoriteSpot  = spot.getUsersFavorite();
+        boolean isFavorited = false;
+        Iterator<User> userIterator = setUsersFavoriteSpot.iterator();
+        while (userIterator.hasNext()) {
+            User user = userIterator.next();
+            System.out.println("User Id : "+user.getId());
+            if (user.getId() == userId) {
+                isFavorited = true;
+            }
+        }
+        if (isFavorited) {
+            remove(spotId,userId);
+        } else {
+           saveFavorite(spotId,userId);
+        }
+    }
 }

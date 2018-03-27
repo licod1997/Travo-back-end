@@ -35,4 +35,10 @@ public class UserServiceImpl implements UserService {
 //       dto.setCreatedSpotIdArr(user.getS);
         return dto;
     }
+
+    @Override
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
+
 }

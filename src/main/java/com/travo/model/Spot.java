@@ -59,7 +59,7 @@ public class Spot implements Serializable {
     @JoinTable(name = "wish_list", joinColumns = @JoinColumn(name = "spot_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> usersWishList;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
     @JoinTable(name = "favorite", joinColumns = @JoinColumn(name = "spot_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> usersFavorite;
 

@@ -1,6 +1,7 @@
 package com.travo.repository;
 
 import com.travo.model.Spot;
+import com.travo.model.User;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -14,6 +15,8 @@ public interface SpotRepository extends JpaRepository<Spot, Long> {
     Spot findSpotById(Long id);
 
     List<Spot> findSpotByEnable(boolean status);
+
+    List<Spot> findByUsersFavoriteIn(List<User> users);
 
     Spot findBySpotName(String value);
 }
