@@ -1,8 +1,10 @@
 package com.travo.service;
 
+import com.travo.constant.AppConstant;
 import com.travo.dto.LocationDTO;
 import com.travo.dto.PageDTO;
 import com.travo.dto.PopularSpotDTO;
+import com.travo.model.Image;
 import com.travo.model.Spot;
 import com.travo.model.User;
 import com.travo.repository.SpotRepository;
@@ -37,12 +39,11 @@ public class SuggestSpotServiceImpl implements SuggestSpotService {
             popularSpotDTO.setId(spot.getId());
             popularSpotDTO.setSpotName(spot.getSpotName());
             popularSpotDTO.setAdress(spot.getAddress());
-            popularSpotDTO.setImageUrl("Unknown");
-            Iterator<Image> imageIterator = spot.getImages().iterator();
-            while(imageIterator.hasNext()) {
-                if(imageIterator.next() != null){
-                    popularSpotDTO.setImageUrl(AppConstant.imgUrlPrefix+imageIterator.next().getImageUrl());;
-                }
+
+            if (spot.getImages().iterator().hasNext()) {
+                popularSpotDTO.setImageUrl(spot.getImages().iterator().next().getImageUrl());;
+            } else {
+                popularSpotDTO.setImageUrl("Unknown");
             }
             popularSpotDTO.setFavoriteCount(spot.getUsersFavorite().size());
             popularSpotDTO.setCommentCount(spot.getComments().size());
@@ -104,7 +105,6 @@ public class SuggestSpotServiceImpl implements SuggestSpotService {
     }
 
     private double lengthOf2Positions(double lat1, double lng1, double lat2, double lng2) {
-        double test = Math.sqrt(Math.pow((lat1 - lat2), 2) + Math.pow((lng1 - lng2), 2));
         return Math.sqrt(Math.pow((lat1 - lat2), 2) + Math.pow((lng1 - lng2), 2));
     }
 }

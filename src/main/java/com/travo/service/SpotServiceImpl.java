@@ -79,7 +79,7 @@ public class SpotServiceImpl implements SpotService {
     }
 
     @Override
-    public SpotDTO findSpotDTOById(Long Id) {
+    public SpotDTO findSpotDTOById(Long Id, User loggedUser) {
         Spot spot = spotRepo.findOne(Id);
         SpotDTO dto = new SpotDTO();
         dto.setId(spot.getId());
@@ -98,6 +98,15 @@ public class SpotServiceImpl implements SpotService {
 //        dto.setCommentIdArr(commnentService.getCommentsIdArray(spot));
         dto.setCreatorId(spot.getCreator().getId());
         dto.setFavouriteIdArr(favoriteService.getFavoriteUserIdBySpot(spot));
+        Set<User> setUsersFavorites = spot.getUsersFavorite();
+        Iterator<User> itr = setUsersFavorites.iterator();
+        dto.setFavorite(false);
+        while (itr.hasNext()) {
+            User user = itr.next();
+            if (user.getId() == loggedUser.getId()) {
+                dto.setFavorite(true);
+            }
+        }
         return dto;
     }
 

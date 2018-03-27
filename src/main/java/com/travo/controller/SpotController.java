@@ -43,14 +43,18 @@ public class SpotController {
     }
 
     @RequestMapping(value = "/spot/{id}", method = RequestMethod.GET)
-    public ResponseEntity<SpotDTO> loadSpotDetail(@PathVariable("id") Long id){
+    public ResponseEntity<SpotDTO> loadSpotDetail(@PathVariable("id") Long id,
+                                                  Authentication auth){
         System.out.println("Load Spot Detail");
-        return new ResponseEntity<>(spotService.findSpotDTOById(id), HttpStatus.OK);
+        User user = userService.findByUsername(auth.getName());
+        return new ResponseEntity<>(spotService.findSpotDTOById(id, user), HttpStatus.OK);
     }
 
     @RequestMapping(value = "/spot/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<SpotDTO> deleteSpot(@PathVariable("id") Long id){
-        SpotDTO spot = spotService.findSpotDTOById(id);
+    public ResponseEntity<SpotDTO> deleteSpot(@PathVariable("id") Long id,
+                                              Authentication auth){
+        User user = userService.findByUsername(auth.getName());
+        SpotDTO spot = spotService.findSpotDTOById(id, user);
         if (spot == null) {
             return new ResponseEntity(HttpStatus.NOT_FOUND);
         }

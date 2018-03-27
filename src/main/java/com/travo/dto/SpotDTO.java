@@ -26,6 +26,7 @@ public class SpotDTO implements Serializable, Comparable {
     private List<String> imgLink;
     private ArrayList<Long> commentIdArr;
     private ArrayList<Long> favouriteIdArr;
+    private Boolean isFavorite;
 
 
     public SpotDTO() {
@@ -158,6 +159,14 @@ public class SpotDTO implements Serializable, Comparable {
 
     public void setImgLink(List<String> imgLink) {
         this.imgLink = imgLink;
+    }
+
+    public Boolean getFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(Boolean favorite) {
+        isFavorite = favorite;
     }
 
     @Override

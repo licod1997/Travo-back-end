@@ -1,6 +1,8 @@
 package com.travo.dto;
 
-public class PageDTO {
+import java.io.Serializable;
+
+public class PageDTO implements Serializable{
     private int page;
     private int size;
 

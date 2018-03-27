@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface SpotService {
     List<SpotDTO> findAllSpot();
-    SpotDTO findSpotDTOById(Long Id);
+    SpotDTO findSpotDTOById(Long Id, User user);
     boolean isSpotExisted(SpotDTO spotDTO);
     Spot findSpotById(Long id);
     void saveSpot(SpotDTO spot);

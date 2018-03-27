@@ -41,6 +41,7 @@ public class SignupServiceImpl implements SignupService {
         user.setPassword(bCryptPasswordEncoder.encode(signupDTO.getPassword()));
         user.setFullName(signupDTO.getFullName());
         user.setEnable(true);
+        user.setImageUrl("logo.png");
 
         Role role = roleRepository.findByName(RoleConstant.ROLE_USER);
         Set<Role> roles = new HashSet<>();
