@@ -19,19 +19,16 @@ public class LoginController {
     public ResponseEntity authCheck() {return ResponseEntity.status(HttpStatus.OK).body("Logged in!");
     }
 
-    @GetMapping("/home")
+    @GetMapping("/get/home")
     public ModelAndView homePage(ModelAndView model) {
         model.setViewName("home");
         return model;
     }
 
     @GetMapping("/login")
-    public ResponseEntity loginPage(@RequestParam(name = "error", required = false) String error) {
-        if (error == null) {
-            return ResponseEntity.status(HttpStatus.OK).build();
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Username or password was incorrect");
-
+    public ModelAndView loginPage(ModelAndView model) {
+        model.setViewName("login");
+        return model;
     }
 
 }

@@ -33,7 +33,7 @@ public class ProfileController {
 			String timeStamp = profileService.getDateTime();
 			String fileName = timeStamp + ".jpg";
 
-			Path path = Paths.get("D:\\Document\\Travo\\trunk\\src\\main\\resources\\static\\avatars\\" + fileName);
+			Path path = Paths.get("C:\\Users\\Notebook\\Desktop\\Travo\\0.0.1\\back-end\\src\\main\\resources\\static\\images" + fileName);
 
 			Files.write(path, bytes);
 
