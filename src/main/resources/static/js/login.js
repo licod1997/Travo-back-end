@@ -1,14 +1,17 @@
 $(document).ready(function () {
-    var username = $('#username');
-    var password = $('#password');
+    var username = $('#signin-username');
+    var password = $('#signin-password');
 
-    $('#login').click(function () {
+    alert('123');
+
+    $('#signin-button').click(function () {
         $.ajax({
             url: 'http://localhost:8080/login',
             method: 'POST',
             contentType: 'application/json',
             data: JSON.stringify({username: username.val(), password: password.val()}),
             success: function (JWT) {
+                console.log('123');
                 window.localStorage.setItem('JWT', JWT);
                 window.location.href = 'http://localhost:8080/get/home';
             },
