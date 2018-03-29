@@ -12,9 +12,15 @@ import com.travo.repository.ImageRepository;
 import com.travo.repository.SpotRepository;
 import com.travo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+
+import java.io.File;
+import java.io.IOException;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -125,10 +131,21 @@ public class SpotServiceImpl implements SpotService {
     }
 
     @Override
-    public void saveSpot(SpotDTO spot) {
-
+    public Spot saveSpot(SpotDTO spotDTO, Image image) {
+    	Spot spot= new Spot();
+    	User user= userRepo.findById(spotDTO.getCreatorId());
+    	spot.setAddress(spotDTO.getAddress());
+    	spot.setCreator(user);
+    	spot.setDescription(spotDTO.getDescription());
+    	spot.getImages().add(image);
+    	return spotRepo.save(spot);
     }
-
+    @Override
+    public String getDateTime()
+	{
+	    String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Timestamp(System.currentTimeMillis()));
+	    return timeStamp;
+	}
 
     @Override
     public void disableSpotById(Long id) {
@@ -180,4 +197,16 @@ public class SpotServiceImpl implements SpotService {
             return blackHeart;
         }
     }
+    @Override
+	public String getImgUrl(String fileName) {
+		String location = null;		
+		try {
+			File file = new ClassPathResource("static/images/"+fileName).getFile();
+			location= file.getAbsolutePath();
+		} catch (IOException ex) {
+			
+			ex.printStackTrace();
+		}  
+		return location;
+	}
 }

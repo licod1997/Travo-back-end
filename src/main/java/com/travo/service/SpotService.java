@@ -2,6 +2,7 @@ package com.travo.service;
 
 import com.travo.dto.HotSpotDTO;
 import com.travo.dto.SpotDTO;
+import com.travo.model.Image;
 import com.travo.model.Spot;
 import com.travo.model.User;
 
@@ -13,9 +14,11 @@ public interface SpotService {
     SpotDTO findSpotDTOById(Long Id, User user);
     boolean isSpotExisted(SpotDTO spotDTO);
     Spot findSpotById(Long id);
-    void saveSpot(SpotDTO spot);
+    Spot saveSpot(SpotDTO spot, Image image);
     void disableSpotById(Long id);
 //    void remove(Long spotId, Long userId);
     void saveFavorite(Long spotId, Long userId);
     String favoriteSpot(Long spotId, Long userId);
+    String getDateTime();
+    String getImgUrl(String fileName);
 }

@@ -42,7 +42,15 @@ public class ImageServiceImpl implements ImageService {
         }
         return result;
     }
-
+    @Override
+    public Image addImage(ImageDTO imageDTO) {
+    	Image image= new Image();
+    	image.setImageUrl(imageDTO.getImageUrl());
+    	image.setCreatedTime(imageDTO.getCreatedTime());
+    	return imageRepository.save(image);
+    	
+    }
+    
     @Override
     public List<String> getListImageLinkBySpot(Spot spot) {
         System.out.println(spot.getId()+"spot Id");

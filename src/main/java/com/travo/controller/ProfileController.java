@@ -4,6 +4,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import javax.sound.midi.Soundbank;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +40,7 @@ public class ProfileController {
 			Files.write(path, bytes);
 
 			location = profileService.getImgUrl(fileName);
+			System.out.println("123");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -54,7 +57,7 @@ public class ProfileController {
 	}
 
 
-	@GetMapping("/prof/{username}")
+	@GetMapping("/prof/info")
 	public ResponseEntity<ProfileDTO> loadUserDetail(Authentication auth) {
 		return new ResponseEntity<>(profileService.loadUserProfile(auth.getName()), HttpStatus.OK);
 	}

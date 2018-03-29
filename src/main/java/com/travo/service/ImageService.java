@@ -1,6 +1,7 @@
 package com.travo.service;
 
 import com.travo.dto.ImageDTO;
+import com.travo.model.Image;
 import com.travo.model.Spot;
 
 import java.util.List;
@@ -14,4 +15,6 @@ public interface ImageService {
     List<String> getListImageLinkBySpot(Spot spot);
 
     List<ImageDTO> getListImagesBySpot(Spot spot);
+    
+    Image addImage(ImageDTO imageDTO);
 }
