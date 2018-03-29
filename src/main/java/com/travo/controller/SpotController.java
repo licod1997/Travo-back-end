@@ -18,7 +18,8 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 
-@CrossOrigin@RestController
+@CrossOrigin
+@RestController
 public class SpotController {
 
     private SpotService spotService;
@@ -37,7 +38,7 @@ public class SpotController {
         List<SpotDTO> lstSpots = spotService.findAllSpot();
 
         if (lstSpots.isEmpty()) {
-            return new ResponseEntity(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(lstSpots,HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<>(lstSpots, HttpStatus.OK);
     }
@@ -50,8 +51,8 @@ public class SpotController {
         return new ResponseEntity<>(spotService.findSpotDTOById(id, user), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/spot/delete/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<SpotDTO> deleteSpot(@PathVariable("id") Long id,
+    @RequestMapping(value = "/spot/disable/{id}", method = RequestMethod.GET)
+    public ResponseEntity<SpotDTO> disableSpot(@PathVariable("id") Long id,
                                               Authentication auth){
         User user = userService.findByUsername(auth.getName());
         SpotDTO spot = spotService.findSpotDTOById(id, user);

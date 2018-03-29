@@ -50,7 +50,7 @@ public class SpotServiceImpl implements SpotService {
     @Override
     public List<SpotDTO> findAllSpot() {
         boolean enable = true;
-        List<Spot> lstSpot = spotRepo.findSpotByEnable(true);
+        List<Spot> lstSpot = spotRepo.findByEnable(true);
         System.out.println("List Spot size: "+lstSpot.size());
         ArrayList<SpotDTO> result = new ArrayList<>();
         for (Spot spot : lstSpot) {
