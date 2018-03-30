@@ -56,7 +56,7 @@ public class SpotServiceImpl implements SpotService {
     @Override
     public List<SpotDTO> findAllSpot() {
         boolean enable = true;
-        List<Spot> lstSpot = spotRepo.findByEnable(true);
+        List<Spot> lstSpot = spotRepo.findAll();
         System.out.println("List Spot size: "+lstSpot.size());
         ArrayList<SpotDTO> result = new ArrayList<>();
         for (Spot spot : lstSpot) {
@@ -151,6 +151,17 @@ public class SpotServiceImpl implements SpotService {
     public void disableSpotById(Long id) {
         Spot spot = spotRepo.findSpotById(id);
         spot.setEnable(false);
+        spotRepo.save(spot);
+    }
+
+    @Override
+    public void changeStatusSpot(Long id) {
+        Spot spot = spotRepo.findSpotById(id);
+        if (spot.getEnable() == true) {
+            spot.setEnable(false);
+        } else {
+            spot.setEnable(true);
+        }
         spotRepo.save(spot);
     }
 

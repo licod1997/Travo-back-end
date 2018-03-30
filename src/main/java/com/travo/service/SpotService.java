@@ -16,6 +16,7 @@ public interface SpotService {
     Spot findSpotById(Long id);
     Spot saveSpot(SpotDTO spot, Image image);
     void disableSpotById(Long id);
+    void changeStatusSpot(Long id );
 //    void remove(Long spotId, Long userId);
     void saveFavorite(Long spotId, Long userId);
     String favoriteSpot(Long spotId, Long userId);

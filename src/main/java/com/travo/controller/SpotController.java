@@ -114,4 +114,16 @@ public class SpotController {
 		User user = userService.findByUsername(auth.getName());
 		return spotService.favoriteSpot(spotId, user.getId());
 	}
+
+    @RequestMapping(value = "/spot/changeStatusSpot/{id}", method = RequestMethod.GET)
+    public ResponseEntity changeSpotStatus(@PathVariable("id") Long spotId
+                                            , Authentication auth){
+        User user = userService.findByUsername(auth.getName());
+        SpotDTO spot = spotService.findSpotDTOById(spotId, user);
+        if (spot == null) {
+            return new ResponseEntity(HttpStatus.NOT_FOUND);
+        }
+        spotService.changeStatusSpot(spotId);
+        return  new ResponseEntity(HttpStatus.OK);
+    }
 }
